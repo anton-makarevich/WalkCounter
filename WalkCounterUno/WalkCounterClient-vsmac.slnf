@@ -1,0 +1,21 @@
+{
+  "solution": {
+    "path": "WalkCounterClient.sln",
+    "projects": [
+		"WalkCounterClient.Shared\\WalkCounterClient.Shared.shproj",
+
+		"WalkCounterClient.Droid\\WalkCounterClient.Droid.csproj",
+
+		"WalkCounterClient.iOS\\WalkCounterClient.iOS.csproj",
+
+
+		"WalkCounterClient.Wasm\\WalkCounterClient.Wasm.csproj",
+
+		"WalkCounterClient.macOS\\WalkCounterClient.macOS.csproj",
+
+		"WalkCounterClient.Skia.Gtk\\WalkCounterClient.Skia.Gtk.csproj",
+
+		"WalkCounterClient.Skia.Linux.FrameBuffer\\WalkCounterClient.Skia.Linux.FrameBuffer.csproj",
+    ]
+  }
+}

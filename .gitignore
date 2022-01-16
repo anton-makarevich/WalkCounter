@@ -267,4 +267,5 @@ __pycache__/
 *.old
 Tools/Misc/KeysProvider/appsettings.json
 
-secure-connect-walkcounterdb
+secure-connect-walkcounterdb.zip
+/config
