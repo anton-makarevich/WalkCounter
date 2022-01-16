@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace WalkCounterClient.ViewModels
         private float _done;
         private string _distance;
         private bool _isBusy;
-        private const string Token= "AstraCS:vXPdmZCpqkWqvmXfkUaRnQRQ:d8103d0ce5bce3bb4996a7a24eabf28c6eec4b7a0e3a235f50477232d8bca860";
+        private const string Token= "AstraCS:FhGHkLrdZRxdfoQnfoHZIezl:777454f8cb0709d68159933e7d74b41b928f7d479e841212eec0cfd78aae15f1";
 
         public WalksViewModel(IApiService apiService)
         {
@@ -26,8 +27,15 @@ namespace WalkCounterClient.ViewModels
 
         public async Task LoadWalks()
         {
-            var response = await _apiService.GetYearWalks(Year, Token);
-            Done = (float)Math.Round(response.Data.Sum(f => double.Parse(f.Distance)),2);
+            try
+            {
+                var response = await _apiService.GetYearWalks(Year, Token);
+                Done = (float)Math.Round(response.Data.Sum(f => double.Parse(f.Distance, NumberStyles.Any, CultureInfo.InvariantCulture)),2);
+            }
+            catch (Exception e)
+            {
+                Info = e.Message;
+            }
         }
 
         public int Year => DateTime.Now.Year;
@@ -45,8 +53,13 @@ namespace WalkCounterClient.ViewModels
             {
                 SetProperty( ref _done, value);
                 OnPropertyChanged(nameof(ToGo));
+                OnPropertyChanged(nameof(Progress));
             }
         }
+
+        public float ToGo =>(float)Math.Round(2022-_done,2);
+
+        public float Progress => Done / Year;
 
         public string Distance
         {
@@ -68,24 +81,29 @@ namespace WalkCounterClient.ViewModels
             {
                 return;
             }
-            if (!double.TryParse(Distance, out var distance))
+
+            var distanceString = Distance.Replace(",", ".");
+            if (!double.TryParse(distanceString, NumberStyles.Float, CultureInfo.InvariantCulture, out var distance))
             {
                 Info = "Check distance!!";
                 return;
             }
+
             var now = DateTime.Now;
             var walk = new Walk
             {
                 Year = now.Year.ToString(),
                 Id = Guid.NewGuid().ToString(),
                 Description = "",
-                Distance = distance.ToString(),
+                Distance = distance.ToString(CultureInfo.InvariantCulture),
                 Date = $"{now.Year}-{now.Month}-{now.Day}"
             };
             try
             {
                 IsBusy = true;
                 await _apiService.SaveWalk(walk, Token);
+                Distance = "0";
+                await LoadWalks();
             }
             catch (Exception e)
             {
@@ -96,9 +114,6 @@ namespace WalkCounterClient.ViewModels
                 IsBusy = false;
             }
         }
-
-        public float ToGo =>(float)Math.Round(2022-_done);
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Refit;
 using WalkCounterClient.Services;
 using WalkCounterClient.ViewModels;
@@ -53,6 +49,11 @@ namespace WalkCounterXF
             {
                 setFocus.RunWorkerAsync();
             }
+        }
+
+        private void DistanceEntry_OnCompleted(object sender, EventArgs e)
+        {
+            ViewModel.SaveCommand.Execute(null);
         }
     }
 }

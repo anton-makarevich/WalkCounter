@@ -1,58 +1,117 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="#95b076"
              x:Class="WalkCounterXF.MainPage">
 
-    <Grid
-        Margin="20">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <StackLayout
+        VerticalOptions="Center"
+        HeightRequest="500"
+        Margin="10"
+        Orientation="Vertical"
+        >
+        <Grid
+            Padding="5"
+            Margin="5"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Label
+                    FontSize="44"
+                    Text="{Binding Year}" />
+                <ProgressBar
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Progress="{Binding Progress}"
+                    ProgressColor="#262e1e"
+                />
+        </Grid>
+        <StackLayout
+            BackgroundColor="#b4d68d"
+            Padding="5,15">
+            <Grid
+                HeightRequest="50"
+                       Padding="5"
+                       Margin="5"
+                       BackgroundColor="#cff5a4"
+                   >
+                       <Grid.ColumnDefinitions>
+                           <ColumnDefinition/>
+                           <ColumnDefinition/>
+                       </Grid.ColumnDefinitions>
+                       <Label
+                           FontSize="33"
+                           Text="TO GO, km"
+                       />
+                       <Label
+                           HorizontalOptions="End"
+                           HorizontalTextAlignment="End"
+                           FontSize="33"
+                           FontAttributes="Bold"
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{Binding ToGo}"
+                       />
+                   </Grid>
+                   <Grid
+                       HeightRequest="50"
+                       Padding="5"
+                       Margin="5"
+                       BackgroundColor="#cff5a4"
+                   >
+                       <Grid.ColumnDefinitions>
+                           <ColumnDefinition/>
+                           <ColumnDefinition/>
+                       </Grid.ColumnDefinitions>
+                       <Label
+                           FontSize="33"
+                           Text="DONE, km"
+                       />
+                       <Label
+                           HorizontalOptions="End"
+                           HorizontalTextAlignment="End"
+                           FontSize="33"
+                           FontAttributes="Bold"
+                           Grid.Column="1"
+                           Text="{Binding Done}"
+                       />
+                   </Grid>
+            <Grid
+                HeightRequest="50"
+                Padding="5"
+                Margin="5"
+                BackgroundColor="#cff5a4"
+            >
+                <Entry
+                    IsPlatformEnabled="False"
+                    FontSize="22"
+                    x:Name="distanceEntry"
+                    Keyboard="Numeric"
+                    HorizontalTextAlignment="Center"
+                    Completed="DistanceEntry_OnCompleted"
+                    Text="{Binding Distance, Mode=TwoWay}"/>
+                <!-- <Button -->
+                <!--     FontSize="22" -->
+                <!--     Grid.Column="1" -->
+                <!--     Text="Enter" -->
+                <!--     Command="{Binding SaveCommand}" -->
+                <!-- /> -->
+
+            </Grid>
+        </StackLayout>
+
+
         <Label
-            FontSize="18"
-            Text="{Binding Year}" />
-        <Label
-            Grid.Row="1"
-            Text="to go"
-        />
-        <Label
-            Grid.Row="2"
-            Text="done"
-        />
-        <Label
-            Grid.Row="1"
-            Grid.Column="1"
-            Text="{Binding ToGo}"
-        />
-        <Label
-            Grid.Row="2"
-            Grid.Column="1"
-            Text="{Binding Done}"
-        />
-        <Entry
-            x:Name="distanceEntry"
-            Grid.Row="3"
-            Text="{Binding Distance, Mode=TwoWay}"/>
-        <Button
-            Grid.Row="3"
-            Grid.Column="1"
-            Text="Enter"
-            Command="{Binding SaveCommand}"
-        />
-        <Label
-            Grid.Row="4"
-            Grid.ColumnSpan="2"
             TextColor="Red"
             Text="{Binding Info}"
         />
-    </Grid>
+    </StackLayout>
+
 
 </ContentPage>
